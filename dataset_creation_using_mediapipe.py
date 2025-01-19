@@ -8,7 +8,7 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
 
-def capture_gestures(label, save_dir="dataset", interval=0.5, max_images=10):
+def capture_gestures(label, save_dir="dataset", interval=0.1, max_images=30):
     """
     Captures images of a hand gesture and saves them to a labeled folder.
 
