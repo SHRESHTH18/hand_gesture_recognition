@@ -10,7 +10,7 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
 
-def capture_gestures_to_csv(label, save_dir="dataset_csv", interval=0.5, max_images=10):
+def capture_gestures_to_csv(label, save_dir="dataset_csv", interval=0.1, max_images=1000):
     """
     Captures hand gesture data and saves the landmark coordinates in a CSV file.
 
@@ -32,7 +32,7 @@ def capture_gestures_to_csv(label, save_dir="dataset_csv", interval=0.5, max_ima
 
         # Initialize the webcam
         cap = cv2.VideoCapture(0)
-        time.sleep(2)  # Allow the camera to initialize
+        time.sleep(5)  # Allow the camera to initialize
         with mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5) as hands:
             captured_count = 0
             last_capture_time = time.time()
