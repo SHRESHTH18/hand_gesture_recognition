@@ -5,35 +5,22 @@ import time
 import csv
 
 
-# Initialize Mediapipe Hands
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
 
 def capture_gestures_to_csv(label, save_dir="dataset_csv", interval=0.1, max_images=1000):
-    """
-    Captures hand gesture data and saves the landmark coordinates in a CSV file.
-
-    Args:
-        label (str): The label of the hand gesture (e.g., "thumbs_up").
-        save_dir (str): The directory to save the CSV file.
-        interval (float): Time interval between captures (in seconds).
-        max_images (int): Maximum number of images to capture.
-    """
-    # Create a directory for the gesture label
     os.makedirs(save_dir, exist_ok=True)
     csv_file = os.path.join(save_dir, f"{label}.csv")
 
-    # Initialize the CSV file and write the header
     with open(csv_file, mode="w", newline="") as file:
         writer = csv.writer(file)
         header = ["Label"] + [f"{axis}_{i}" for i in range(21) for axis in ["x", "y", "z"]]
         writer.writerow(header)
 
-        # Initialize the webcam
         cap = cv2.VideoCapture(0)
-        time.sleep(5)  # Allow the camera to initialize
-        with mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5) as hands:
+        time.sleep(5)
+        with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.5) as hands:
             captured_count = 0
             last_capture_time = time.time()
 
@@ -43,7 +30,6 @@ def capture_gestures_to_csv(label, save_dir="dataset_csv", interval=0.1, max_ima
                     print("Failed to capture image. Exiting.")
                     break
 
-                # Flip the image horizontally for a mirror view
                 frame = cv2.flip(frame, 1)
                 rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 results = hands.process(rgb_frame)
